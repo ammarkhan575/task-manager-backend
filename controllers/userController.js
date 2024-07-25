@@ -37,9 +37,17 @@ export const loginUser = async (req, res) => {
       expiresIn: '1d',
     });
 
+    const transformedUser = {
+        _id: user._id,
+        firstName: user.firstName,
+        lastName: user.lastName,
+        email: user.email,
+        createdAt: user.createdAt
+    }
     res.cookie('token', token, { httpOnly: true }).status(200).json({
       success: true,
-      user,
+      user: transformedUser,
+      token: token
     });
   } catch (error) {
     res.status(500).json({ message: error.message });
